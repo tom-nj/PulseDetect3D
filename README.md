@@ -1,8 +1,8 @@
 # PulseDetect3D
 
-This project is developed by Yuchuan Tang's research team at Southeast University in China.
+This project aims to detect and characterize the structure-significant velocity pulses in ground motions.
+The source codes are programmed in MATLAB by Dr. Yuchuan Tang at Southeast University in Nanjing, China.
 
 The theoretical background is documented in the paper, 
-A hybrid characterization framework for structure-significant pulse-like features in ground motions, SDEE (under review).
+Y. Tang, C. Wu, J. Wang. A hybrid characterization framework for structure-significant pulse-like features in ground motions, Soil Dynamics and Earthquake Engineering, 160 (2022) 107325 ( https://doi.org/10.1016/j.soildyn.2022.107325 ) .
 
-The source codes will be released once the paper is published.
