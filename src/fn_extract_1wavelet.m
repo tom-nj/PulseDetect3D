@@ -2,6 +2,7 @@ function [pulse_th,vp,t_vp,t_start,coef_peak] = fn_extract_1wavelet(signal,dt,wn
 % extract one wavelet in time domain from the CWT results
 %
 % by Yuchuan Tang@SEU, 1/17/2022
+% modified to work with waveforms whose negative side has larger amplitude, 5/21/2023
 %--------------------------------------------------------------------------
 
     iter = 8;       %the number of iterations
@@ -26,7 +27,7 @@ function [pulse_th,vp,t_vp,t_start,coef_peak] = fn_extract_1wavelet(signal,dt,wn
     basis = basis.*dt;
     y_vals = coef * psi/sqrt(pulse_scale);
     [temp1, temp2] = max(abs(y_vals));
-    vp = sign(coef) * temp1;    %peak velocity (+/- sign indicates whether the peak of the original waveform turns upside down) 
+    vp = y_vals(temp2);    %peak velocity (+/- sign as is) 
     t_vp = basis(temp2);    %occuring time of vp
     delta = basis(2) - basis(1);
     
