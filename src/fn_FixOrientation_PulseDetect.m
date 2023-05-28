@@ -30,6 +30,7 @@ function fn_FixOrientation_PulseDetect(path_output,pulselist_output,folder,...
 %(3) peak velocity vp differs from envelope amplitude Ap for M&P pulse with nu>0.
 %
 % by Yuchuan Tang @ Southeast University, 6/11/2022
+% Add Ap=-vp for M&P waveform with nu=180, 5/28/2023
 %--------------------------------------------------------------------------
 
         nstep=size(grd_vel,1);      %number of time steps in the EQ record
@@ -179,10 +180,12 @@ function fn_FixOrientation_PulseDetect(path_output,pulselist_output,folder,...
             if (flag_wavelet)        %current potential pulse is admissible wavelet
                 Tp = power(10.0, Dx_supstar)     %pulse period identified
                 [~,vp,t_vp,t_start,~] = fn_extract_1wavelet(grd_vel, dt, wname, Tp);   %detection through CWT
-                                        %vp is peak velocity (minus sign indicates turning original waveform upside down)
+                                        %vp is peak velocity (whose absolute value is the largest)
                 if (strcmp(pulseType_split{1}, 'MP') && strcmp(pulseType_split{3}, '0'))     %M&P pulse with nu=0 whose envelope amplitude Ap=vp
                     Ap = vp;        %unit: cm/sec
-                elseif (strcmp(pulseType_split{1}, 'MP'))   %M&P pulse with nu>0 whose envelope amplitude Ap different from vp
+                elseif (strcmp(pulseType_split{1}, 'MP') && strcmp(pulseType_split{3}, '180'))     %M&P pulse with nu=180 whose envelope amplitude Ap=-vp
+                    Ap = -vp;        %unit: cm/sec					
+                elseif (strcmp(pulseType_split{1}, 'MP'))   %M&P pulse with 0<nu<180 whose envelope amplitude Ap different from vp
                     temp1 = 2*pi/Tp*(t_vp-t_start);
                     Ap = 2*vp/((1-cos(temp1/gamma_Mav))*cos(temp1-gamma_Mav*pi+nu_Mav/180*pi));  %per the formula for velocity at t_vp (unit: cm/sec)
                 end
